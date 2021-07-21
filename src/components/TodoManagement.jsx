@@ -3,7 +3,7 @@ import React from 'react';
 export const TodoManagement = ({ create, submitting }) => {
   const [inputValue, setInputValue] = React.useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = React.useCallback(async (e) => {
     e.preventDefault();
 
     if (!inputValue) {
@@ -12,11 +12,11 @@ export const TodoManagement = ({ create, submitting }) => {
     
     await create(e, inputValue);
     setInputValue('');
-  };
+  }, [inputValue, create]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = React.useCallback((e) => {
     setInputValue(e.target.value);
-  };
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
