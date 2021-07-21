@@ -7,7 +7,7 @@ export class AppViewModel {
   todosService = diContainer.get(TodosService.diToken);
   @observable list = [];
 
-  addTodo = async (todo) => {
+  create = async (todo) => {
     await this.todosService.create(todo);
     this.list = await this.todosService.getList();
   }

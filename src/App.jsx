@@ -6,30 +6,28 @@ import { AppViewModel } from './App.vm';
 import { TodoList } from './components/TodoList';
 import { TodoManagement } from './components/TodoManagement';
 
-export const App = observer((props) => {
-  const $vm = React.useMemo(() => {
-    return new AppViewModel();
-  }, []);
+const $vm = new AppViewModel();
 
+export const App = observer((props) => {
   const [submitting, setSubmitting] = React.useState(false);
 
-  const handleAddTodo = async (e, value) => {
+  const handleTodoCreate = React.useCallback(async (e, value) => {
     e.preventDefault();
 
     setSubmitting(true);
 
     try {
-      await $vm.addTodo({ text: value, id: uuid() });
+      await $vm.create({ text: value, id: uuid() });
     } catch (err) {
       throw err;
     } finally {
       setSubmitting(false);
     }
-  };
+  }, []);
 
   return (
     <>
-      <TodoManagement create={handleAddTodo} submitting={submitting} />
+      <TodoManagement create={handleTodoCreate} submitting={submitting} />
       <TodoList list={$vm.list} />
     </>
   );
